@@ -74,7 +74,7 @@ export default function Page() {
     <div className="bg-valentine-gradient-soft relative min-h-screen overflow-y-auto py-8">
       <FloatingHearts />
 
-      <div className="relative z-10 flex flex-col items-center justify-center px-4 pb-28 sm:pb-4">
+      <div className={`relative z-10 flex flex-col items-center justify-center px-4 ${noCount >= 5 ? 'pb-28 sm:pb-4' : 'pb-4'}`}>
         {yesPressed ? (
           <div className="animate-scale-in glass-card flex flex-col items-center rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
             <div className="mb-2 text-4xl sm:text-5xl" aria-hidden="true">
@@ -101,7 +101,7 @@ export default function Page() {
           </div>
         ) : (
           <>
-            {/* Card with GIF, heading, and Yes button */}
+            {/* Card with GIF, heading, and buttons */}
             <div className="animate-fade-in-up glass-card flex flex-col items-center rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
               <img
                 className="mb-4 h-[180px] rounded-2xl sm:h-[220px]"
@@ -112,26 +112,63 @@ export default function Page() {
                 Will you be my Valentine?
               </h1>
 
-              <button
-                className="btn-yes cursor-pointer rounded-full px-8 py-3 font-bold tracking-wide text-white transition-all"
-                style={{ fontSize: yesButtonSize }}
-                onClick={() => setYesPressed(true)}
-                aria-label="Yes, I will be your Valentine"
-                tabIndex={0}
-              >
-                Yes 💖
-              </button>
+              {/* First 5 clicks (noCount 0-4): Show buttons side by side */}
+              {noCount < 5 ? (
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  <button
+                    className="btn-yes cursor-pointer rounded-full px-8 py-3 font-bold tracking-wide text-white transition-all"
+                    style={{ fontSize: yesButtonSize }}
+                    onClick={() => setYesPressed(true)}
+                    aria-label="Yes, I will be your Valentine"
+                    tabIndex={0}
+                  >
+                    Yes 💖
+                  </button>
+                  <button
+                    onClick={handleNoClick}
+                    className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold"
+                    aria-label="No, decline valentine request"
+                    tabIndex={0}
+                  >
+                    {noButtonText}
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {/* After 5 No clicks: Just show Yes button in card on mobile */}
+                  <button
+                    className="btn-yes cursor-pointer rounded-full px-8 py-3 font-bold tracking-wide text-white transition-all"
+                    style={{ fontSize: yesButtonSize }}
+                    onClick={() => setYesPressed(true)}
+                    aria-label="Yes, I will be your Valentine"
+                    tabIndex={0}
+                  >
+                    Yes 💖
+                  </button>
 
-              {/* No button — desktop only (inline in card) */}
-              <div className="mt-4 hidden flex-col items-center sm:flex">
-                <button
-                  onClick={handleNoClick}
-                  className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold"
-                  aria-label="No, decline valentine request"
-                  tabIndex={0}
-                >
-                  {noButtonText}
-                </button>
+                  {/* No button — desktop only (inline in card) when noCount >= 5 */}
+                  <div className="mt-4 hidden flex-col items-center sm:flex">
+                    <button
+                      onClick={handleNoClick}
+                      className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold"
+                      aria-label="No, decline valentine request"
+                      tabIndex={0}
+                    >
+                      {noButtonText}
+                    </button>
+                    <p
+                      className="mt-4 font-romantic text-sm italic text-valentine-700 opacity-80"
+                      style={{ transform: "rotate(-2deg)" }}
+                      aria-hidden="true"
+                    >
+                      psst... I dare you to say no 😏
+                    </p>
+                  </div>
+                </>
+              )}
+
+              {/* "Dare" text for first 5 clicks */}
+              {noCount < 5 && (
                 <p
                   className="mt-4 font-romantic text-sm italic text-valentine-700 opacity-80"
                   style={{ transform: "rotate(-2deg)" }}
@@ -139,27 +176,29 @@ export default function Page() {
                 >
                   psst... I dare you to say no 😏
                 </p>
-              </div>
+              )}
             </div>
 
-            {/* No button — mobile only (fixed to bottom of viewport) */}
-            <div className="fixed bottom-0 left-0 right-0 z-30 flex flex-col items-center bg-gradient-to-t from-[#fce4ec] via-[#fce4ec]/95 to-transparent pb-5 pt-8 sm:hidden">
-              <button
-                onClick={handleNoClick}
-                className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold shadow-md"
-                aria-label="No, decline valentine request"
-                tabIndex={0}
-              >
-                {noButtonText}
-              </button>
-              <p
-                className="mt-2 font-romantic text-sm italic text-valentine-700 opacity-80"
-                style={{ transform: "rotate(-2deg)" }}
-                aria-hidden="true"
-              >
-                psst... I dare you to say no 😏
-              </p>
-            </div>
+            {/* No button — mobile only (fixed to bottom) ONLY after 5 No clicks */}
+            {noCount >= 5 && (
+              <div className="fixed bottom-0 left-0 right-0 z-30 flex flex-col items-center bg-gradient-to-t from-[#fce4ec] via-[#fce4ec]/95 to-transparent pb-5 pt-8 sm:hidden">
+                <button
+                  onClick={handleNoClick}
+                  className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold shadow-md"
+                  aria-label="No, decline valentine request"
+                  tabIndex={0}
+                >
+                  {noButtonText}
+                </button>
+                <p
+                  className="mt-2 font-romantic text-sm italic text-valentine-700 opacity-80"
+                  style={{ transform: "rotate(-2deg)" }}
+                  aria-hidden="true"
+                >
+                  psst... I dare you to say no 😏
+                </p>
+              </div>
+            )}
           </>
         )}
       </div>
