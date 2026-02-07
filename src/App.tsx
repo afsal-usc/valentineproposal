@@ -34,6 +34,7 @@ const FloatingHearts = () => (
 export default function Page() {
   const [noCount, setNoCount] = useState(0);
   const [yesPressed, setYesPressed] = useState(false);
+  // No cap - let it grow infinitely!
   const yesButtonSize = noCount * 20 + 16;
 
   const handleNoClick = () => {
@@ -43,21 +44,25 @@ export default function Page() {
   const getNoButtonText = () => {
     const phrases = [
       "No",
-      "Are you sure?",
-      "What if I asked really nicely?",
-      "Pretty please",
-      "With a chocolate rice cake on top",
-      "What about a matcha frostie",
-      "PLEASE POOKIE",
-      "But :*(",
-      "I am going to die",
-      "Yep im dead",
-      "ok ur talking to nathan's ghost",
-      "please babe",
-      ":((((",
-      "PRETTY PLEASE",
-      "Estoy muerto",
-      "No :(",
+      "Are you sure? 🥺",
+      "Like… really sure?",
+      "What if I asked nicely?",
+      "Pretty please? 💗",
+      "With extra love on top?",
+      "I can bring chocolates 🍫",
+      "And maybe flowers too 🌹",
+      "I’ll share my fries 🍟",
+      "I’ll laugh at all your jokes 😌",
+      "I’ll send you good morning texts ☀️",
+      "You’re breaking a cute heart right now 🧸",
+      "Last chance to make me very happy 👉👈",
+      "Think again… carefully 😏",
+      "This button is getting nervous",
+      "The Yes button looks better though",
+      "Are you trying to play hard to get?",
+      "Okay but… we’d be really cute together",
+      "Fine… I’ll wait right here 💕",
+      "You know you want to press Yes 😌",
     ];
 
     return phrases[Math.min(noCount, phrases.length - 1)];
@@ -93,18 +98,22 @@ export default function Page() {
             </div>
           </div>
         ) : (
-          <div className="animate-fade-in-up glass-card flex flex-col items-center rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
-            <img
-              className="mb-4 h-[180px] rounded-2xl sm:h-[220px]"
-              src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
-              alt="Cute bear with roses"
-            />
-            <h1 className="text-gradient-valentine font-romantic mb-6 pb-2 text-center text-4xl font-bold leading-normal sm:text-5xl md:text-6xl">
-              Will you be my Valentine?
-            </h1>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="animate-fade-in-up glass-card relative flex flex-col items-center overflow-hidden rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
+            <div className="relative z-10 flex flex-col items-center">
+              <img
+                className="mb-4 h-[180px] rounded-2xl sm:h-[220px]"
+                src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
+                alt="Cute bear with roses"
+              />
+              <h1 className="text-gradient-valentine font-romantic mb-6 pb-2 text-center text-4xl font-bold leading-normal sm:text-5xl md:text-6xl">
+                Will you be my Valentine?
+              </h1>
+            </div>
+            
+            {/* Buttons container - Yes grows upward, No stays at bottom */}
+            <div className="relative z-20 flex w-full flex-col items-center gap-4">
               <button
-                className="btn-yes cursor-pointer rounded-full px-8 py-3 font-bold tracking-wide text-white"
+                className="btn-yes cursor-pointer rounded-full px-8 py-3 font-bold tracking-wide text-white transition-all"
                 style={{ fontSize: yesButtonSize }}
                 onClick={() => setYesPressed(true)}
                 aria-label="Yes, I will be your Valentine"
@@ -114,15 +123,16 @@ export default function Page() {
               </button>
               <button
                 onClick={handleNoClick}
-                className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold"
+                className="btn-no relative z-30 cursor-pointer rounded-full px-6 py-3 font-semibold"
                 aria-label="No, decline valentine request"
                 tabIndex={0}
               >
                 {noCount === 0 ? "No" : getNoButtonText()}
               </button>
             </div>
+            
             <p
-              className="mt-4 font-romantic text-sm italic text-valentine-400 opacity-60"
+              className="relative z-20 mt-4 font-romantic text-sm italic text-valentine-400 opacity-60"
               style={{ transform: "rotate(-2deg)" }}
               aria-hidden="true"
             >
