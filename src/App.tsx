@@ -68,11 +68,13 @@ export default function Page() {
     return phrases[Math.min(noCount, phrases.length - 1)];
   };
 
+  const noButtonText = noCount === 0 ? "No" : getNoButtonText();
+
   return (
-    <div className="bg-valentine-gradient-soft relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
+    <div className="bg-valentine-gradient-soft relative min-h-screen overflow-y-auto py-8">
       <FloatingHearts />
 
-      <div className="relative z-10 flex flex-col items-center justify-center px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 pb-28 sm:pb-4">
         {yesPressed ? (
           <div className="animate-scale-in glass-card flex flex-col items-center rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
             <div className="mb-2 text-4xl sm:text-5xl" aria-hidden="true">
@@ -98,8 +100,9 @@ export default function Page() {
             </div>
           </div>
         ) : (
-          <div className="animate-fade-in-up glass-card relative flex flex-col items-center overflow-hidden rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
-            <div className="relative z-10 flex flex-col items-center">
+          <>
+            {/* Card with GIF, heading, and Yes button */}
+            <div className="animate-fade-in-up glass-card flex flex-col items-center rounded-3xl px-8 py-10 shadow-xl sm:px-12 sm:py-14">
               <img
                 className="mb-4 h-[180px] rounded-2xl sm:h-[220px]"
                 src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
@@ -108,10 +111,7 @@ export default function Page() {
               <h1 className="text-gradient-valentine font-romantic mb-6 pb-2 text-center text-4xl font-bold leading-normal sm:text-5xl md:text-6xl">
                 Will you be my Valentine?
               </h1>
-            </div>
-            
-            {/* Buttons container - Yes grows upward, No stays at bottom */}
-            <div className="relative z-20 flex w-full flex-col items-center gap-4">
+
               <button
                 className="btn-yes cursor-pointer rounded-full px-8 py-3 font-bold tracking-wide text-white transition-all"
                 style={{ fontSize: yesButtonSize }}
@@ -121,24 +121,46 @@ export default function Page() {
               >
                 Yes 💖
               </button>
+
+              {/* No button — desktop only (inline in card) */}
+              <div className="mt-4 hidden flex-col items-center sm:flex">
+                <button
+                  onClick={handleNoClick}
+                  className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold"
+                  aria-label="No, decline valentine request"
+                  tabIndex={0}
+                >
+                  {noButtonText}
+                </button>
+                <p
+                  className="mt-4 font-romantic text-sm italic text-valentine-700 opacity-80"
+                  style={{ transform: "rotate(-2deg)" }}
+                  aria-hidden="true"
+                >
+                  psst... I dare you to say no 😏
+                </p>
+              </div>
+            </div>
+
+            {/* No button — mobile only (fixed to bottom of viewport) */}
+            <div className="fixed bottom-0 left-0 right-0 z-30 flex flex-col items-center bg-gradient-to-t from-[#fce4ec] via-[#fce4ec]/95 to-transparent pb-5 pt-8 sm:hidden">
               <button
                 onClick={handleNoClick}
-                className="btn-no relative z-30 cursor-pointer rounded-full px-6 py-3 font-semibold"
+                className="btn-no cursor-pointer rounded-full px-6 py-3 font-semibold shadow-md"
                 aria-label="No, decline valentine request"
                 tabIndex={0}
               >
-                {noCount === 0 ? "No" : getNoButtonText()}
+                {noButtonText}
               </button>
+              <p
+                className="mt-2 font-romantic text-sm italic text-valentine-700 opacity-80"
+                style={{ transform: "rotate(-2deg)" }}
+                aria-hidden="true"
+              >
+                psst... I dare you to say no 😏
+              </p>
             </div>
-            
-            <p
-              className="relative z-20 mt-4 font-romantic text-sm italic text-valentine-400 opacity-60"
-              style={{ transform: "rotate(-2deg)" }}
-              aria-hidden="true"
-            >
-              psst... I dare you to say no 😏
-            </p>
-          </div>
+          </>
         )}
       </div>
     </div>
