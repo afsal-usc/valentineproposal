@@ -204,7 +204,7 @@ export default function Page() {
               WOOOOOO!!!
             </div>
             <div className="text-gradient-valentine font-romantic mt-2 text-center text-2xl font-semibold sm:text-4xl">
-              I love you pookie!! ;))
+              I love you cutie!! ;))
             </div>
             <div className="mt-4 flex gap-2 text-2xl" aria-hidden="true">
               <span className="animate-bounce-gentle">💗</span>
@@ -282,15 +282,17 @@ export default function Page() {
                 </>
               )}
 
-              {/* "Dare" text for first 5 clicks */}
+              {/* "Dare" text for first 5 clicks - PROMINENT */}
               {noCount < 5 && (
-                <p
-                  className="mt-4 font-romantic text-sm italic text-valentine-700 opacity-80"
-                  style={{ transform: "rotate(-2deg)" }}
-                  aria-hidden="true"
-                >
-                  psst... I dare you to say no 😏
-                </p>
+                <div className="mt-6 animate-pulse-soft">
+                  <p
+                    className="font-romantic text-lg font-bold italic text-valentine-800 sm:text-xl"
+                    style={{ transform: "rotate(-2deg)" }}
+                    aria-hidden="true"
+                  >
+                    psst... I dare you to say no 😏
+                  </p>
+                </div>
               )}
             </div>
 
